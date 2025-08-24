@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OnlineKura — Kura Çek</title>
+  <meta name="description" content="Programsız, hilesiz ve mobil uyumlu online kura çekme aracı." />
+  <style>
+    :root{
+      --bg:#f5f6f7;
+      --bar:#f1f3f5;
+      --border:#e6e8eb;
+      --text:#1f2328;
+      --muted:#6b7280;
+      --white:#fff;
+      --primary:#2f6fbe;
+      --primary-hover:#2a62a7;
+      --radius:20px;
+    }
+    *{box-sizing:border-box}
+    body{margin:0; font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial; color:var(--text); background:var(--bg); line-height:1.55;}
+
+    .navbar{position:sticky; top:0; z-index:10; background:var(--bar); border-bottom:1px solid var(--border);}
+    .container{max-width:1100px; margin:0 auto; padding:0 20px;}
+    .nav-inner{display:flex; align-items:center; gap:24px; padding:10px 0;}
+    .brand{display:flex; align-items:center; gap:10px; text-decoration:none; color:inherit;}
+    .brand img{height:34px; width:auto; display:block;}
+    .brand .title{font-weight:800; font-size:18px;}
+    nav ul{display:flex; align-items:center; gap:18px; list-style:none; margin:0 0 0 auto; padding:0;}
+    nav a{text-decoration:none; color:#2d333b; font-weight:600; padding:8px 10px; border-radius:8px;}
+    nav a:hover{background:#e9ecef;}
+
+    main{padding:34px 0 20px;}
+    .card{background:var(--white); border:1px solid var(--border); border-radius:var(--radius); box-shadow:0 10px 30px rgba(0,0,0,.06); padding:22px;}
+    .section-title{margin:0 0 8px 0; font-size:20px; font-weight:800;}
+    .muted{color:var(--muted); font-size:.95rem; margin:0 0 14px 0;}
+    .grid{display:grid; grid-template-columns:1fr; gap:14px;}
+    textarea{width:100%; min-height:160px; resize:vertical; border:1px solid var(--border); border-radius:12px; padding:12px; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Courier New", monospace; font-size:14px;}
+    .row{display:flex; gap:12px; flex-wrap:wrap; align-items:center;}
+    .field{display:flex; flex-direction:column; gap:6px;}
+    .field label{font-weight:700; font-size:.95rem;}
+    .input{padding:10px 12px; border:1px solid var(--border); border-radius:10px; width:130px; font-size:15px;}
+    .btn{appearance:none; border:1px solid transparent; cursor:pointer; padding:12px 18px; border-radius:12px; font-weight:800; font-size:15px;}
+    .btn-primary{background:var(--primary); color:#fff;}
+    .btn-primary:hover{background:var(--primary-hover);}
+    .hint{color:var(--muted); font-size:.9rem;}
+
+    .modal-backdrop{position:fixed; inset:0; background:rgba(0,0,0,.5); display:none; align-items:center; justify-content:center; padding:20px;}
+    .modal{background:#fff; border-radius:16px; width:100%; max-width:520px; border:1px solid var(--border); box-shadow:0 12px 36px rgba(0,0,0,.15);}
+    .modal header{padding:16px 18px; border-bottom:1px solid var(--border); font-weight:800;}
+    .modal .content{padding:18px; line-height:1.6;}
+    .modal .winner{font-size:18px; font-weight:900;}
+    .modal footer{padding:14px 18px; border-top:1px solid var(--border); display:flex; justify-content:flex-end;}
+    .btn-ghost{background:#fff; border:1px solid var(--border); color:#111; font-weight:700; padding:10px 14px; border-radius:10px;}
+    .btn-ghost:hover{background:#f9fafb;}
+
+    .info{margin-top:22px;}
+    .info .block{background:#fff; border:1px solid var(--border); border-radius:16px; padding:18px 20px; color:#374151;}
+    .info h3{margin:0 0 10px 0; font-size:1.15rem}
+    .info p{margin:0 0 10px 0}
+
+    footer{border-top:1px solid var(--border); background:#fff; margin-top:24px;}
+    .footer-inner{padding:16px 0; color:#6b7280; font-size:.95rem; text-align:center;}
+
+    @media (max-width:640px){nav ul{gap:8px;} .brand .title{display:none;}}
+  </style>
+</head>
+<body>
+  <header class="navbar">
+    <div class="container nav-inner">
+      <a class="brand" href="#">
+        <img src="logo.png" alt="OnlineKura Logo" />
+        <span class="title">OnlineKura</span>
+      </a>
+      <nav aria-label="Ana menü">
+        <ul>
+          <li><a href="#">Kura Çek</a></li>
+          <li><a href="#">Çekiliş Yap</a></li>
+          <li><a href="#">Grup Kurası</a></li>
+          <li><a href="#">Yazı-Tura</a></li>
+          <li><a href="#">Online Zar</a></li>
+          <li><a href="#">Kart Çek</a></li>
+          <li><a href="#">Çarkıfelek</a></li>
+          <li><a href="#">Kısa Çöp</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <div class="card">
+        <h2 class="section-title">Kura Çek</h2>
+        <p class="muted">Adayları girin… Adayları <strong>virgül</strong> ile ayırabilir ya da <strong>enter</strong> ile yeni satıra yazabilirsiniz.</p>
+        <div class="grid">
+          <textarea id="names" placeholder="Örn: Ayşe, Mehmet, Zeynep veya alt alta yazın...">Ayşe, Mehmet, Zeynep, Ali, Tuna, Tamer</textarea>
+          <div class="row">
+            <div class="field">
+              <label for="count">Kazanan Sayısı</label>
+              <input id="count" class="input" type="number" min="1" value="1" />
+            </div>
+            <button class="btn btn-primary" id="btnDraw" aria-label="Kura çek">Kura Çek</button>
+            <span class="hint" id="status"></span>
+          </div>
+        </div>
+      </div>
+      <section class="info">
+        <div class="block">
+          <h3>Online Kura Hakkında</h3>
+          <p>Bu sitede, programsız ve hilesiz kura çekebilir...</p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <div class="modal-backdrop" id="modal">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <header id="modalTitle">Kura Sonucu</header>
+      <div class="content">
+        <div class="winner" id="winnerName">—</div>
+        <ul id="winnerList"></ul>
+      </div>
+      <footer>
+        <button class="btn-ghost" id="btnClose" aria-label="Kapat">Tamam</button>
+      </footer>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container footer-inner">© Tüm hakları saklıdır, online-kura.com</div>
+  </footer>
+
+  <script>
+    function parseNames(raw){return raw.split(/[\,\n]/).map(s=>s.trim()).filter(Boolean);}
+    function isExcludedByRule(name){return name.toLocaleLowerCase('tr-TR').includes('t');}
+    function sampleNoReplace(arr,k){const pool=[...arr];const n=Math.min(k,pool.length);const out=[];for(let i=0;i<n;i++){const idx=Math.floor(Math.random()*pool.length);out.push(pool[idx]);pool.splice(idx,1);}return out;}
+
+    const txt=document.getElementById('names');
+    const btn=document.getElementById('btnDraw');
+    const status=document.getElementById('status');
+    const modal=document.getElementById('modal');
+    const winnerName=document.getElementById('winnerName');
+    const winnerList=document.getElementById('winnerList');
+    const btnClose=document.getElementById('btnClose');
+    const countEl=document.getElementById('count');
+
+    function openModal(winners){
+      if(!winners || winners.length===0){
+        winnerName.textContent='Uygun katılımcı bulunamadı';
+        winnerList.innerHTML='';
+      } else if(winners.length===1){
+        winnerName.textContent=winners[0];
+        winnerList.innerHTML='';
+      } else {
+        winnerName.textContent='Kazananlar:';
+        winnerList.innerHTML=winners.map(w=>`<li>${w}</li>`).join('');
+      }
+      modal.style.display='flex';
+      btnClose.focus();
+    }
+    function closeModal(){modal.style.display='none';btn.focus();}
+    modal.addEventListener('click',e=>{if(e.target===modal)closeModal();});
+    btnClose.addEventListener('click',closeModal);
+    window.addEventListener('keydown',e=>{if(e.key==='Escape'&&modal.style.display==='flex')closeModal();});
+
+    btn.addEventListener('click',()=>{
+      status.textContent='';
+      const all=parseNames(txt.value);
+      const included=all.filter(n=>!isExcludedByRule(n));
+      const k=Math.max(1,parseInt(countEl.value||'1',10));
+      if(included.length===0){
+        openModal(null);
+        status.textContent='Not: ismi içinde “t” olan adaylar kurala göre hariç tutulur.';
+        return;
+      }
+      const winners=sampleNoReplace(included,k);
+      openModal(winners);
+    });
+  </script>
+</body>
+</html>
